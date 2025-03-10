@@ -1,44 +1,179 @@
-body {
-    background-color: #000;
-    color: #ffa500;
-    font-family: 'Orbitron', sans-serif;
-    text-shadow: 0 0 5px #ff7300;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+@font-face {
+    font-family: 'CustomFont';
+    src: url('assets/fonts/EUROCAPS.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
+
+/* Allgemeine Einstellungen */
+body {
+    background-color: #000;
+    color: #ffb000;
+    font-family: 'CustomFont', sans-serif;
+    text-shadow: 0 0 5px #ff7100;
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    height: 100vh;
+    margin-left: auto;
+}
+
+
+/* Hintergrund-Video */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.video-background video {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#fallback-image {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+/* Layout für Setup- und Ergebnisbereich */
+.container {
+    display: flex;
+    justify-content: center; 
+    align-items: flex-start;
+    gap: 50px; 
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
+    padding-left: 320px; 
+}
+
+/* Setup-Fenster (links in der Ecke) */
+#search-container {
+    width: 300px;
+    position: fixed;
+    left: 20px; 
+    top: 50px;
+    z-index: 10; 
+}
+/* UI-Panel-Stil für beide Bereiche */
 .ui-panel {
     background: rgba(10,10,10,0.8);
-    border: 2px solid #ff7300;
+    border: 2px solid #ff7100;
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 0 15px #ff7300;
-    width: 400px;
+    box-shadow: 0 0 15px #ff7100;
     text-align: center;
 }
 
+/* Titel */
 .title {
     margin-bottom: 20px;
     font-size: 1.5rem;
 }
 
-input[type="text"] {
-    background: rgba(0,0,0,0.9);
-    color: #ffa500;
-    border: 1px solid #ff7300;
-    padding: 8px;
-    width: 90%;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    outline: none;
-    font-size: 1rem;
+/* Checkbox-Stil */
+.filters {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
 }
 
+.elite-checkbox {
+    cursor: pointer;
+    user-select: none;
+    color: #ff7100;
+    font-family: 'CustomFont', sans-serif;
+    font-size: 1.4rem;
+    position: relative;
+}
+
+.elite-checkbox input {
+    opacity: 0;
+    position: absolute;
+}
+
+.elite-checkbox span::before {
+    content: "[ ]";
+    margin-right: 8px;
+    transition: all 0.2s ease;
+}
+
+.elite-checkbox input:checked + span::before {
+    content: "[■]";
+    color: #ffd000;
+    text-shadow: 0 0 5px #ffd000;
+}
+
+.elite-checkbox:hover span {
+    color: #ffd000;
+}
+
+/* Planetenanzahl-Steuerung */
+.planet-count-container {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.planet-count-container p {
+    font-size: 0.9rem;
+    color: #ffb000;
+    margin-bottom: 5px;
+}
+
+.planet-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.planet-count button {
+    background-color: #ff7100;
+    border: none;
+    color: #000;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    font-size: 1.2rem;
+}
+
+.planet-count button:hover {
+    background-color: #ffb000;
+}
+
+.planet-count input {
+    background: rgba(0,0,0,0.9);
+    color: #ffb000;
+    border: 1px solid #ff7100;
+    padding: 8px;
+    width: 50px;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    outline: none;
+}
+
+/* Such-Button */
 button {
-    background-color: #ff7300;
+    background-color: #ff7100;
     border: none;
     color: #000;
     padding: 10px 20px;
@@ -46,31 +181,101 @@ button {
     border-radius: 5px;
     font-weight: bold;
     transition: background-color 0.3s;
+    margin-top: 10px;
 }
 
 button:hover {
-    background-color: #ffa500;
+    background-color: #ffd000;
+}
+
+
+
+
+/*------------------- Searchbox Settings ---------------------- */
+
+#results-container {
+    width: 55%;
+    min-width: 400px;
+    display: none; 
+    margin: auto;
 }
 
 #results {
     margin-top: 20px;
-    text-align: left;
-    max-height: 250px;
+    padding: 10px; 
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #ff7100;
+    border-radius: 10px;
+    color: #ffb000;
+    max-height: 1300px;
+    overflow: auto;
     overflow-y: auto;
+    text-align: left;
 }
-.filters {
-    margin: 15px 0;
+
+/* Suchergebnisse sichtbar machen */
+#results-container.visible {
+    display: block;
+}
+#results li:last-child {
+    border-bottom: none;
+}
+/* Suchergebnisse (balkenartige Anzeige) */
+/* Elite Dangerous-Style */
+.result-item {
     display: flex;
-    justify-content: space-around;
-    font-size: 0.9rem;
+    align-items: center;
+    background: linear-gradient(to right, rgba(255, 115, 0, 0.25), rgba(255, 115, 0, 0.1)); 
+    border-radius: 5px;
+    padding: 6px;
+    margin: 5px 0;
+    font-family: 'CustomFont', sans-serif;
+    font-size: 1.4rem;
+    position: relative;
+    width: 98%;
 }
 
-.filters input[type="checkbox"] {
-    margin-right: 5px;
-    accent-color: #ff7300;
+/* Icon links im Balken */
+.result-icon {
+    width: 50px;
+    height: 50px;
+    background: url("http://127.0.0.1:5000/icons/planet.png") no-repeat center center;
+    background-size: contain;
+    margin-right: 15px;
 }
 
-.filters label {
+/* Name des Suchergebnisses */
+.result-text {
+    flex-grow: 1;
+    color: #ffb000;
+}
+
+.hidden {
+    display: none;
+}
+/* Container für Buttons rechts */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-left: auto;
+}
+
+/* Stil für die Buttons */
+.result-button {
+    background-color: #ff7100;
+    border: none;
+    color: #000;
+    padding: 6px 12px;
     cursor: pointer;
-    user-select: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+    text-align: center;
 }
+
+.result-button:hover {
+    background-color: #ffd000;
+}
+

@@ -4,20 +4,62 @@
     <meta charset="UTF-8">
     <title>Elite Dangerous - Data Terminal</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="ui-panel">
-        <h1 class="title">Data Terminal</h1>
 
-        <div class="filters">
-            <label><input type="checkbox" value="system" class="filter"> Systems</label>
-            <label><input type="checkbox" value="station" class="filter"> Stations</label>
-            <label><input type="checkbox" value="point" class="filter"> Points of Interest</label>
+    <!-- Background Video -->
+    <div class="video-background">
+        <video autoplay muted loop id="bg-video">
+            <source src="http://127.0.0.1:5000/video/background.mp4" type="video/mp4">  
+        </video>
+        <img src="http://127.0.0.1:5000/video/fallback.jpg" id="fallback-image" class="hidden">
+    </div>
+
+    <!-- Container für Setup und Ergebnisse nebeneinander -->
+    <div class="container">
+        <!-- Setup-Fenster -->
+        <div class="ui-panel" id="search-container">
+            <h1 class="title">Colonisation Terminal</h1>
+
+            <div class="filters">
+                <label class="elite-checkbox">
+                    <input type="checkbox" value="system">
+                    <span>ICY PLANETS</span>
+                </label>
+                <label class="elite-checkbox">
+                    <input type="checkbox" value="station">
+                    <span>ROCKY PLANETS</span>
+                </label>
+                <label class="elite-checkbox">
+                    <input type="checkbox" value="point">
+                    <span>RING PLANETS</span>
+                </label>
+                <label class="elite-checkbox">
+                    <input type="checkbox" value="specialstars">
+                    <span>SPECIAL STARS</span>
+                </label>
+            </div>
+
+            <!-- 2. Reihe: Anzahl der Planeten -->
+            <div class="planet-count-container">
+                <p>Set the minimum number of planets in the system:</p>
+                <div class="planet-count">
+                    <button id="decrease">-</button>
+                    <input type="number" id="planetCount" value="1" min="1">
+                    <button id="increase">+</button>
+                </div>
+            </div>
+
+            <button id="searchBtn">SEARCH</button>
         </div>
 
-        <button id="searchBtn">SEARCH</button>
-
-        <div id="results"></div>
+        <!-- Ergebnisse erscheinen hier -->
+        <div class="ui-panel hidden" id="results-container">
+            <h1 class="title">Search Results</h1>
+            <div id="results"></div>
+        </div>
     </div>
 
     <script src="script.js"></script>
