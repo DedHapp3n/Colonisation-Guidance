@@ -30,26 +30,51 @@ def search():
 
     if filters and filters != ['']:
         for item in data_store:
-            for filter_keyword in filters:
-                if filter_matches(item, filter_keyword):
-                    filtered_results.append(item)
-                    break  # Item nur einmal hinzufügen
+            if item.get("population", -1) == 0: # everything with population will be filtered
+                for filter_keyword in filters:
+                    if filter_matches(item, filter_keyword):
+                        filtered_results.append(item)
+                        break  # Item nur einmal hinzufügen
     else:
         # Keine Filter gesetzt: Alles anzeigen
+        
         filtered_results = data_store
 
-    return jsonify({'results': filtered_results})
+    return jsonify({'results': [item['name'] for item in filtered_results]})
+
 
 def filter_matches(item, filter_keyword):
     keyword = filter_keyword.lower()
-    if filter_keyword == 'station' and 'station' in item.lower():
+    bodies = item.get('bodies', [])
+    special_star_types = ['Black Hole', 'Neutron Star']  #define special
+
+    # Prüfe, ob ein Himmelskörper Ringe enthält
+    if keyword == 'rings' and any('rings' in body and body['rings'] for body in bodies):
         return True
-    if filter_keyword == 'system' and 'system' in item.lower():
+
+    # Falls nach bestimmten Ringtypen gefiltert werden soll (z. B. "Rocky")
+    if keyword in ['rocky', 'metal rich', 'icy'] and any(
+        'rings' in body and any(keyword in ring['type'].lower() for ring in body['rings'])
+        for body in bodies
+    ):
         return True
-    if filter_keyword == 'point' and 'point' in item.lower():
+
+    # Standard-Filter für andere Objekttypen
+    if keyword == 'star' and any('subType' in body and 'star' in body['subType'].lower() for body in bodies):
         return True
-    if filter_keyword == 'specialstars' and 'special stars' in item.lower():
+    if keyword == 'planet' and any('type' in body and 'planet' in body['type'].lower() for body in bodies):
         return True
+    if keyword == 'station' and 'station' in item.get('name', '').lower():
+        return True
+    if keyword == 'system' and 'system' in item.get('name', '').lower():
+        return True
+     
+    if keyword == 'specialstars' and any(
+        'subType' in body and any(special_type.lower() in body['subType'].lower() for special_type in special_star_types)
+        for body in bodies
+    ):
+        return True
+
     return False
 
 if __name__ == '__main__':

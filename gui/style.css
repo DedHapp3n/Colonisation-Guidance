@@ -198,6 +198,7 @@ button:hover {
     min-width: 400px;
     display: none; 
     margin: auto;
+    max-height: 90vh; 
 }
 
 #results {
@@ -210,6 +211,7 @@ button:hover {
     max-height: 1300px;
     overflow: auto;
     overflow-y: auto;
+    max-height: 80vh; 
     text-align: left;
 }
 
