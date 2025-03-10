@@ -25,22 +25,21 @@ def serve_video(filename):
 @app.route('/search', methods=['GET'])
 def search():
     filters = request.args.get('filters', '').lower().split(',')
+    min_planets = int(request.args.get('minPlanets', 0)) 
 
     filtered_results = []
 
     if filters and filters != ['']:
         for item in data_store:
-            if item.get("population", -1) == 0: # everything with population will be filtered
-                for filter_keyword in filters:
-                    if filter_matches(item, filter_keyword):
+            if item.get("population", -1) == 0 and 'bodies' in item:  # Sicherstellen, dass bodies existiert
+                if any(filter_matches(item, filter_keyword) for filter_keyword in filters):
+                    planet_count = sum(1 for body in item['bodies'] if body['type'] == "Planet")
+                    if planet_count >= min_planets:
                         filtered_results.append(item)
-                        break  # Item nur einmal hinzufügen
     else:
-        # Keine Filter gesetzt: Alles anzeigen
-        
-        filtered_results = data_store
+        filtered_results = [item for item in data_store if 'bodies' in item]  # Nur Objekte mit bodies zurückgeben
 
-    return jsonify({'results': [item['name'] for item in filtered_results]})
+    return jsonify({'results': filtered_results})
 
 
 def filter_matches(item, filter_keyword):
@@ -68,7 +67,6 @@ def filter_matches(item, filter_keyword):
         return True
     if keyword == 'system' and 'system' in item.get('name', '').lower():
         return True
-     
     if keyword == 'specialstars' and any(
         'subType' in body and any(special_type.lower() in body['subType'].lower() for special_type in special_star_types)
         for body in bodies
