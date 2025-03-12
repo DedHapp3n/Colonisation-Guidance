@@ -304,6 +304,23 @@ button:hover {
     color: #ffb000;
     font-weight: bold;
 }
+/*---- Distance to Sol------*/
+
+.result-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #ffd000;
+}
+
+.sol-distance {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #ffb000;
+    margin-top: 5px;
+    text-shadow: 0 0 5px #ff7100;
+    display: block;
+    visibility: visible;
+}
 
 /* -----Resault Button Container---- */
 .button-container {

@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify,send_from_directory
 import json
 import os
+import math
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -28,7 +29,13 @@ def search():
     min_planets = int(request.args.get('minPlanets', 0)) 
 
     filtered_results = []
-
+    
+    for item in data_store:
+            if 'coords' in item:  
+                coords = item['coords']
+                distance = math.sqrt(coords['x']**2 + coords['y']**2 + coords['z']**2)
+                item['distance_from_sol'] = round(distance, 2)
+                
     if filters and filters != ['']:
         for item in data_store:
             if item.get("population", -1) == 0 and 'bodies' in item:  # Sicherstellen, dass bodies existiert
@@ -36,6 +43,7 @@ def search():
                     planet_count = sum(1 for body in item['bodies'] if body['type'] == "Planet")
                     if planet_count >= min_planets:
                         filtered_results.append(item)
+                        
     else:
         filtered_results = [item for item in data_store if 'bodies' in item]  # Nur Objekte mit bodies zurückgeben
 
@@ -51,12 +59,7 @@ def filter_matches(item, filter_keyword):
     if keyword == 'rings' and any('rings' in body and body['rings'] for body in bodies):
         return True
 
-    # Falls nach bestimmten Ringtypen gefiltert werden soll (z. B. "Rocky")
-    if keyword in ['rocky', 'metal rich', 'icy'] and any(
-        'rings' in body and any(keyword in ring['type'].lower() for ring in body['rings'])
-        for body in bodies
-    ):
-        return True
+   
 
     # Standard-Filter für andere Objekttypen
     if keyword == 'star' and any('subType' in body and 'star' in body['subType'].lower() for body in bodies):
