@@ -8,5 +8,5 @@ services:
       - .:/app
     env_file:
       - .env  
-    working_dir: /background
-    command: python app.py
+    working_dir: /app
+    command: python background/app.py
