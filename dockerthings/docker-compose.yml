@@ -5,6 +5,8 @@ services:
     restart: unless-stopped
     ports:
       - "5000:5000"
+    env_file:
+      - .env
 
-    working_dir:  
-    command: python app.py  # Startet die Flask-App
+    working_dir: /data/compose/4/
+    command: python app.py  
