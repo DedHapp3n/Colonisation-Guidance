@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  web:
+    image: python:3.9
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    env_file:
+      - stack.env  # Diese Datei muss im Git-Repo sein!
+    command: python app.py
