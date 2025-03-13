@@ -5,6 +5,7 @@ services:
     ports:
       - "5000:5000"
     env_file:
-      - .env  
-    working_dir: /app
+      - .env
+      
+    RUN pip install --no-cache-dir -r requirements.txt
     command: python app.py
