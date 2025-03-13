@@ -1,10 +1,10 @@
-from flask import Flask, request, jsonify,send_from_directory
+from flask import Flask, request, jsonify,send_from_directory, render_template
 import json
 import os
 import math
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", template_folder="templates")
 CORS(app)
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -14,6 +14,14 @@ assets_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets', 
 with open(data_file, 'r', encoding='utf-8') as f:
     data_store = json.load(f)
     
+@app.route('/')
+def index():
+    return render_template("index.html") 
+
+@app.route('/assets/fonts/<path:filename>')
+def serve_fonts(filename):
+    return send_from_directory(os.path.join(app.root_path, 'assets/fonts'), filename)
+
 @app.route('/icons/<path:filename>')
 def serve_icon(filename):
     return send_from_directory(os.path.join(app.root_path, 'assets/icons'), filename)
@@ -66,9 +74,9 @@ def filter_matches(item, filter_keyword):
         return True
     if keyword == 'planet' and any('type' in body and 'planet' in body['type'].lower() for body in bodies):
         return True
-    if keyword == 'station' and 'station' in item.get('name', '').lower():
+    if keyword == 'rocky' and any('subType' in body and 'rocky' in body['subType'].lower()for body in bodies):
         return True
-    if keyword == 'system' and 'system' in item.get('name', '').lower():
+    if keyword == 'icy' and any('subType' in body and 'icy' in body['subType'].lower()for body in bodies):
         return True
     if keyword == 'specialstars' and any(
         'subType' in body and any(special_type.lower() in body['subType'].lower() for special_type in special_star_types)

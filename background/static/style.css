@@ -1,8 +1,6 @@
-@font-face {
+@font-face { /* Elite Font */
     font-family: 'CustomFont';
-    src: url('assets/fonts/EUROCAPS.TTF') format('truetype');   /* Elite Font */
-    font-weight: normal;
-    font-style: normal;
+    src: url('assets/fonts/EUROCAPS.TTF') format('truetype');  
 }
 
 

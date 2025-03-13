@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Elite Dangerous - Data Terminal</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+<link rel="icon" type="image/png" href="http://127.0.0.1:5000/icons/favicon.png">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
 <body>
 
     <!-- Background Video -->
@@ -29,11 +32,11 @@
                     <span>STAR</span>
                 </label>
                 <label class="elite-checkbox">
-                    <input type="checkbox" value="system">
+                    <input type="checkbox" value="icy">
                     <span>ICY PLANETS</span>
                 </label>
                 <label class="elite-checkbox">
-                    <input type="checkbox" value="station">
+                    <input type="checkbox" value="rocky">
                     <span>ROCKY PLANETS</span>
                 </label>
                 <label class="elite-checkbox">
@@ -65,9 +68,6 @@
             <div id="results"></div>
         </div>
     </div>
-
-    <script src="script.js"></script>
-    
     <div id="system-info">
         <img id="star-count-icon" src="http://127.0.0.1:5000/icons/star_ico.png" alt="Sun Count">
         <span id="sun-count">0</span>
