@@ -8,8 +8,8 @@ app = Flask(__name__, static_folder="static", template_folder="templates")
 CORS(app)
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-data_file = os.path.join(script_dir, 'assets', 'galaxy.json')
-assets_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'assets', 'video')
+data_file = os.path.join(script_dir, 'galaxy folder','galaxy.json')
+assets_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),'background', 'assets', 'video')
 
 with open(data_file, 'r', encoding='utf-8') as f:
     data_store = json.load(f)
@@ -18,13 +18,13 @@ with open(data_file, 'r', encoding='utf-8') as f:
 def index():
     return render_template("index.html") 
 
-@app.route('/assets/fonts/<path:filename>')
+@app.route('/background/assets/fonts/<path:filename>')
 def serve_fonts(filename):
-    return send_from_directory(os.path.join(app.root_path, 'assets/fonts'), filename)
+    return send_from_directory(os.path.join(app.root_path, 'background/assets/fonts'), filename)
 
 @app.route('/icons/<path:filename>')
 def serve_icon(filename):
-    return send_from_directory(os.path.join(app.root_path, 'assets/icons'), filename)
+    return send_from_directory(os.path.join(app.root_path, 'background/assets/icons'), filename)
 
 @app.route('/video/<filename>')
 def serve_video(filename):
