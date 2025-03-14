@@ -7,6 +7,7 @@ services:
       - "5000:5000"
     env_file:
       - .env
-
-    working_dir: /data/compose/4/
+    volume:
+      - /volume1/Docker/ed_colonisation
+    working_dir: /volume1/Docker/ed_colonisation
     command: python app.py  
