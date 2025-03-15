@@ -10,4 +10,4 @@ services:
     volumes:
       - /volume1/Docker/ed_colonisation
     working_dir: /volume1/Docker/ed_colonisation
-    command: sh -c "pip install -r requirements.txt && python app.py"
+    command: python3 app.py"
