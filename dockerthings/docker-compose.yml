@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   web:
     build: .
@@ -10,4 +12,21 @@ services:
     volumes:
       - /volume1/Docker/ed_colonisation
     working_dir: /volume1/Docker/ed_colonisation
-    command: python3 app.py"
+    depends_on:
+      - mongo
+    command: ["python", "app.py"]
+
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+
+volumes:
+  mongodb_data:
